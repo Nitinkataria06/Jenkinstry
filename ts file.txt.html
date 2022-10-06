@@ -1,0 +1,82 @@
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiService } from './api.service';
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'Add User';
+
+  constructor( private apiSer: ApiService){}
+  ngOnInit(){
+    this.getCurr();
+  }
+  price : any =[];
+
+    checkboxArray: any = [
+      {
+        id: 1,
+        type: "checkbox",
+        name: "EUR"
+      },
+      {
+        id: 2,
+        type: "checkbox",
+        name: "USD"
+      },
+      {
+        id: 3,
+        type: "checkbox",
+        name: "GBP"
+      }
+    ];
+    currArray:any=[];
+    arr:any=[];
+    getCurr(){
+        this.currArray=this.apiSer.currency();
+        this.arr=this.apiSer.currency();
+        console.log(this.currArray);
+    }
+    tempArr:any=[];
+    newArr:any=[];
+    onChange(event: any){
+      if(event.target.checked){
+          //console.log(event.target.value);
+          this.tempArr=this.arr.filter((e:any)=> e.id==event.target.value);
+          //console.log(this.tempArr);
+          this.currArray=[];
+          this.newArr.push(this.tempArr);
+          for(let i=0;i<this.newArr.length;i++){
+            var firstArr=this.newArr[i];
+            for(let i=0; i<firstArr.length;i++){
+              var obj = firstArr[i];
+             this.currArray.push(obj);
+              console.log(this.currArray);
+          } //nfor
+          // console.log(this.newArr);
+      } //for
+      
+      } //if
+  
+    else{
+      this.tempArr=this.currArray.filter((e:any)=> e.id!=event.target.value);
+      this.newArr=[];
+      this.currArray=[];
+      this.newArr.push(this.tempArr);
+      console.log(this.newArr);
+      for(let i=0;i<this.newArr.length;i++){
+        var firstArr=this.newArr[i];
+        for(let i=0; i<firstArr.length;i++){
+          var obj = firstArr[i];
+         this.currArray.push(obj);
+          // console.log(this.currArray);
+      } //nfor
+      // console.log(this.newArr);
+  } //for
+  
+    }
+    } 
+  
+}
